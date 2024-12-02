@@ -43,6 +43,7 @@ loading_meme = [
         ]
 
 # Submit button
+client = openai.OpenAI(api_key=user_api_key)
 if st.button("Analizar Texto"):
     if not api_key:
         st.error("Please enter your OpenAI API key in the sidebar.")
@@ -54,7 +55,7 @@ if st.button("Analizar Texto"):
             try:
                 # Set OpenAI API key
                 openai.api_key = api_key
-                response = openai.Completion.create(
+                response = client.chat.completions.create(
                     model="gpt-4o-mini",
                     temperature = 0.6,
                     messages=[
