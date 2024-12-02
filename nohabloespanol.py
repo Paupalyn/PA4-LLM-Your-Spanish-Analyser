@@ -91,7 +91,5 @@ if st.button("Analizar Texto"):
                         st.error("Received an empty response from the API.")
                 else:
                     st.error("No valid response received from the OpenAI API.")
-            except openai.error.OpenAIError as api_error:
-                st.error(f"OpenAI API error occurred: {api_error}")
             except Exception as e:
                 st.error(f"An unexpected error occurred: {e}")
