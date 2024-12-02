@@ -21,14 +21,15 @@ user_input = st.text_area("Enter Spanish text ✍️:", "Escribe algo aquí.", h
 
 # Prompt for OpenAI
 processing_prompt = """
-Act as a linguist who is expert in Spanish morphology and syntax. You will receive a Spanish text, and you should break it into individual words. 
-For each word, provide the following:
-1. "word" - the original word in Spanish
-2. "IPA" - the International Phonetic Alphabet transcription of the word
-3. "english_translation" - the translation of the word into English
-4. "thai_translation" - the translation of the word into Thai
-5. "part_of_speech" - the part of speech (e.g., noun, verb, adjective)
-Return the result as a JSON array, where each element contains these fields.
+You are a linguist specializing in Spanish. Given a Spanish text, split it into words and provide:
+- Word in Spanish
+- IPA transcription
+- English translation
+- Thai translation
+- Part of speech
+
+Return the data as a JSON array of objects like this:
+[{"word": "hola", "IPA": "ˈo.la", "english_translation": "hello", "thai_translation": "สวัสดี", "part_of_speech": "interjection"}].
 """
 # Funny loading meme
 loading_meme = [
