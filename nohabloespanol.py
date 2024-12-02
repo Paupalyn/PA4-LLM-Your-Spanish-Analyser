@@ -30,49 +30,52 @@ For each word, provide the following:
 5. "part_of_speech" - the part of speech (e.g., noun, verb, adjective)
 Return the result as a JSON array, where each element contains these fields.
 """
-# Funny loading meme
+
+# Funny loading memes
 loading_meme = [
-            "Loading… because irregular verbs need therapy.",
-            "Wait… we’re still arguing with el agua, which is feminine but insists it’s not.",
-            "One second… trying to explain why burro doesn’t mean butter.",
-            "Processing… just like you’re processing that esposa can mean ‘wife’ or ‘handcuffs.’",
-            "Wait a moment… we’re deciding if the subjunctive is really necessary. (Spoiler: it is.)",
-            "Loading… translating ¡Caramba! because honestly, even we’re not sure what it means.",
-            "Please wait… looking for someone who truly understands por and para.",
-            "Hold on… debating whether ll sounds like ‘y,’ ‘j,’ or nothing today."
-        ]
+    "Loading… because irregular verbs need therapy.",
+    "Wait… we’re still arguing with el agua, which is feminine but insists it’s not.",
+    "One second… trying to explain why burro doesn’t mean butter.",
+    "Processing… just like you’re processing that esposa can mean ‘wife’ or ‘handcuffs.’",
+    "Wait a moment… we’re deciding if the subjunctive is really necessary. (Spoiler: it is.)",
+    "Loading… translating ¡Caramba! because honestly, even we’re not sure what it means.",
+    "Please wait… looking for someone who truly understands por and para.",
+    "Hold on… debating whether ll sounds like ‘y,’ ‘j,’ or nothing today.",
+]
 
 # Submit button
-client = openai.OpenAI(api_key=user_api_key)
 if st.button("Analizar Texto"):
     if not user_api_key:
         st.error("Please enter your OpenAI API key in the sidebar.")
     elif not user_input.strip():
         st.error("Please enter some text to analyze.")
     else:
-        with st.spinner(random.choice(loading_meme)):        
+        with st.spinner(random.choice(loading_meme)):
             try:
                 # Set OpenAI API key
-                response = client.chat.completions.create(
-                    model="gpt-4o-mini",
-                    temperature = 0.6,
+                openai.api_key = user_api_key
+
+                # API call
+                response = openai.ChatCompletion.create(
+                    model="gpt-4",
+                    temperature=0.6,
                     messages=[
                         {"role": "system", "content": processing_prompt},
                         {"role": "user", "content": user_input},
-                    ]
+                    ],
                 )
+
+                # Parse and display response
                 if response and 'choices' in response and len(response['choices']) > 0:
-                    esp_json = response.choices[0].message.content
-                    if esp_json.strip():  # Ensure the response is not empty
+                    esp_json = response['choices'][0]['message']['content']
+                    if esp_json.strip():
                         try:
                             esp_list = json.loads(esp_json)  # Parse the JSON response
+                            df = pd.DataFrame(esp_list)  # Create a DataFrame
 
-                            # Create a DataFrame
-                            df = pd.DataFrame(esp_list)
-
-                            # Display the DataFrame
+                            # Display DataFrame
                             st.markdown("Spanish Analysed Table 💁‍♀️")
-                            st.dataframe(df)  # Display DataFrame
+                            st.dataframe(df)
 
                             # Allow CSV download
                             csv = df.to_csv(index=False, encoding='utf-8-sig').encode('utf-8-sig')
