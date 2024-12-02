@@ -74,10 +74,10 @@ if st.button("Analizar Texto"):
                     st.dataframe(df)  # Display DataFrame
                 
                     # Allow CSV download
-                    csv = data.to_csv(index=False, encoding='utf-8-sig').encode('utf-8-sig')
+                    csv = df.to_csv(index=False, encoding='utf-8-sig').encode('utf-8-sig')
                     st.download_button(
                         label="Download Results as CSV",
-                        df=csv,
+                        data=csv,
                         file_name="spanish_text_analysis.csv",
                         mime="text/csv",
                     )
