@@ -64,7 +64,7 @@ if st.button("Analizar Texto"):
                 esp_list = json.loads(esp_json)
             
             # Extract and parse the response
-            result_content = response['choices'][0]['message']['content']
+                result_content = response['choices'][0]['message']['content']
             try:
                 data = pd.DataFrame(eval(result_content))  # Convert JSON array to DataFrame
                 st.markdown("### Analysis Results:")
