@@ -30,15 +30,7 @@ For each word, provide the following:
 5. "part_of_speech" - the part of speech (e.g., noun, verb, adjective)
 Return the result as a JSON array, where each element contains these fields.
 """
-
-# Submit button
-if st.button("Analizar Texto"):
-    if not api_key:
-        st.error("Please enter your OpenAI API key in the sidebar.")
-    elif not user_input.strip():
-        st.error("Please enter some text to analyze.")
-    else:
-        st.info = [
+loading_meme = [
             "Loading… because irregular verbs need therapy.",
             "Wait… we’re still arguing with el agua, which is feminine but insists it’s not.",
             "One second… trying to explain why burro doesn’t mean butter.",
@@ -48,7 +40,15 @@ if st.button("Analizar Texto"):
             "Please wait… looking for someone who truly understands por and para.",
             "Hold on… debating whether ll sounds like ‘y,’ ‘j,’ or nothing today."
         ]
-        meme_list = st.spinner(text=random.choice(st.info))
+
+# Submit button
+if st.button("Analizar Texto"):
+    if not api_key:
+        st.error("Please enter your OpenAI API key in the sidebar.")
+    elif not user_input.strip():
+        st.error("Please enter some text to analyze.")
+    else:
+        with st.spinner(random.choice(loading_meme)):
         try:
             # Set OpenAI API key
             openai.api_key = api_key
@@ -80,10 +80,8 @@ if st.button("Analizar Texto"):
                     file_name="spanish_text_analysis.csv",
                     mime="text/csv",
                 )
-            except Exception as parse_error:
-                st.error(f"Error parsing results: {parse_error}")
-        except Exception as api_error:
-            st.error(f"Error with OpenAI API: {api_error}")
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
 
         #สร้าง DataFrame
         df = pd.DataFrame(results)
