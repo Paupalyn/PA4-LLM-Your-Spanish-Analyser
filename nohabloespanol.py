@@ -14,7 +14,7 @@ This app analyzes Spanish text, breaking it into individual words and providing:
 """)
 
 # Sidebar for API key
-api_key = st.sidebar.text_input("Enter your OpenAI API key 🔐", type="password")
+user_api_key = st.sidebar.text_input("Enter your OpenAI API key 🔐", type="password")
 
 # Input text area
 user_input = st.text_area("Enter Spanish text ✍️:", "Escribe algo aquí.", height=200)
@@ -43,7 +43,7 @@ loading_meme = [
         ]
 
 # Submit button
-client = openai.OpenAI(api_key=api_key)
+client = openai.OpenAI(api_key=user_api_key)
 if st.button("Analizar Texto"):
     if not api_key:
         st.error("Please enter your OpenAI API key in the sidebar.")
