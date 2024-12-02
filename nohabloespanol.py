@@ -98,6 +98,6 @@ if st.button("Analizar Texto"):
         st.download_button(
             label="🪄 download (CSV)",
             data=csv,
-            file_name="nohablamosespanol.csv",
+            file_name="nohablamosespanol_result.csv",
             mime='text/csv'
         )
