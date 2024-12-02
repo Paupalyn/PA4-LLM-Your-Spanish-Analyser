@@ -21,7 +21,7 @@ user_input = st.text_area("Enter Spanish text ✍️:", "Escribe algo aquí.", h
 
 # Prompt for OpenAI
 processing_prompt = """
-Act as a linguist who is expert in Spanish morphology and syntax. You will receive a Spanish text, and you should break it into individual words. 
+You will receive a Spanish text, and you should break it into individual words. 
 For each word, provide the following:
 1. "word" - the original word in Spanish
 2. "IPA" - the International Phonetic Alphabet transcription of the word
