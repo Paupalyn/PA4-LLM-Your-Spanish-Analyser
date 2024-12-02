@@ -57,7 +57,7 @@ if st.button("Analizar Texto"):
 
                 # API call
                 response = openai.ChatCompletion.create(
-                    model="gpt-4",
+                    model="gpt-4o-mini",
                     temperature=0.6,
                     messages=[
                         {"role": "system", "content": processing_prompt},
