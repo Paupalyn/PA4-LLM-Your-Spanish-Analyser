@@ -20,7 +20,6 @@ api_key = st.sidebar.text_input("Enter your OpenAI API key 🔐", type="password
 user_input = st.text_area("Enter Spanish text ✍️:", "Escribe algo aquí.", height=200)
 
 # Prompt for OpenAI
-client = openai.OpenAI(api_key=user_api_key)
 processing_prompt = """
 Act as a linguist who is expert in Spanish morphology and syntax. You will receive a Spanish text, and you should break it into individual words. 
 For each word, provide the following:
@@ -55,7 +54,7 @@ if st.button("Analizar Texto"):
             try:
                 # Set OpenAI API key
                 openai.api_key = api_key
-                response = client.chat.completions.create(
+                response = chat.completions.create(
                     model="gpt-4o-mini",
                     temperature = 0.6,
                     messages=[
