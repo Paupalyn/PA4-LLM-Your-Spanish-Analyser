@@ -52,14 +52,14 @@ if st.button("Analizar Texto"):
             try:
                 # Set OpenAI API key
                 openai.api_key = api_key
-            response = client.chat.completions.create(
-                model="gpt-4o-mini",
-                temperature = 0.6,
-                messages=[
-                    {"role": "system", "content": processing_prompt},
-                    {"role": "user", "content": user_input},
-                ]
-            )
+                response = client.chat.completions.create(
+                    model="gpt-4o-mini",
+                    temperature = 0.6,
+                    messages=[
+                        {"role": "system", "content": processing_prompt},
+                        {"role": "user", "content": user_input},
+                    ]
+                )
             esp_json = response.choices[0].message.content
             esp_list = json.loads(esp_json)
             
