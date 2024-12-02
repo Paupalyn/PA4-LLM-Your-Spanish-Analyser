@@ -90,7 +90,7 @@ if st.button("Analizar Texto"):
 
         #แสดงผล
         st.subheader("Spanish Analysed Table 💁‍♀️")
-        st.dataframe(df)≤
+        st.dataframe(df)
        
 
         #ดาวน์โหลด CSV
