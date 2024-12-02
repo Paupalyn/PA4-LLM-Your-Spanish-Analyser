@@ -62,26 +62,34 @@ if st.button("Analizar Texto"):
                         {"role": "user", "content": user_input},
                     ]
                 )
-                if response and response.choices:
-                    esp_json = response.choices[0].message.content
-                    esp_list = json.loads(esp_json)
+                if response and 'choices' in response and len(response['choices']) > 0:
+                    esp_json = response['choices'][0]['message']['content']
+                    if esp_json.strip():  # Ensure the response is not empty
+                        try:
+                            esp_list = json.loads(esp_json)  # Parse the JSON response
 
-                # Create a DataFrame
-                    df = pd.DataFrame(esp_list)
+                            # Create a DataFrame
+                            df = pd.DataFrame(esp_list)
 
-                    # Display the DataFrame
-                    st.markdown("Spanish Analysed Table 💁‍♀️")
-                    st.dataframe(df)  # Display DataFrame
-                
-                    # Allow CSV download
-                    csv = df.to_csv(index=False, encoding='utf-8-sig').encode('utf-8-sig')
-                    st.download_button(
-                        label="Download Results as CSV",
-                        data=csv,
-                        file_name="spanish_text_analysis.csv",
-                        mime="text/csv",
-                    )
+                            # Display the DataFrame
+                            st.markdown("Spanish Analysed Table 💁‍♀️")
+                            st.dataframe(df)  # Display DataFrame
+
+                            # Allow CSV download
+                            csv = df.to_csv(index=False, encoding='utf-8-sig').encode('utf-8-sig')
+                            st.download_button(
+                                label="Download Results as CSV",
+                                data=csv,
+                                file_name="spanish_text_analysis.csv",
+                                mime="text/csv",
+                            )
+                        except json.JSONDecodeError:
+                            st.error("The response from OpenAI is not in valid JSON format. Please check your prompt.")
+                    else:
+                        st.error("Received an empty response from the API.")
                 else:
-                    st.error("No valid response received from the API.")
+                    st.error("No valid response received from the OpenAI API.")
+            except openai.error.OpenAIError as api_error:
+                st.error(f"OpenAI API error occurred: {api_error}")
             except Exception as e:
-                st.error(f"An error occurred: {e}")
+                st.error(f"An unexpected error occurred: {e}")
