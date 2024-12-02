@@ -77,7 +77,7 @@ if st.button("Analizar Texto"):
                     csv = data.to_csv(index=False, encoding='utf-8-sig').encode('utf-8-sig')
                     st.download_button(
                         label="Download Results as CSV",
-                        data=csv,
+                        df=csv,
                         file_name="spanish_text_analysis.csv",
                         mime="text/csv",
                     )
