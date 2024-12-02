@@ -9,7 +9,7 @@ st.title("🎀 Tu Spanish Text Analyser 🇪🇸 🖋️")
 st.markdown("""
 This app analyzes Spanish text, breaking it into individual words and providing:
 - IPA transcription
-- English anAnalyze Textd Thai translations
+- English and Thai translations
 - Part of Speech (POS) information
 """)
 
@@ -20,6 +20,7 @@ api_key = st.sidebar.text_input("Enter your OpenAI API key 🔐", type="password
 user_input = st.text_area("Enter Spanish text ✍️:", "Escribe algo aquí.", height=200)
 
 # Prompt for OpenAI
+client = openai.OpenAI(api_key=user_api_key)
 processing_prompt = """
 Act as a linguist who is expert in Spanish morphology and syntax. You will receive a Spanish text, and you should break it into individual words. 
 For each word, provide the following:
@@ -50,6 +51,7 @@ if st.button("Analizar Texto"):
         st.error("Please enter some text to analyze.")
     else:
         with st.spinner(random.choice(loading_meme)):
+                    
             try:
                 # Set OpenAI API key
                 openai.api_key = api_key
