@@ -55,7 +55,7 @@ if st.button("Analizar Texto"):
                 # Set OpenAI API key
                 openai.api_key = api_key
                 response = client.chat.completions.create(
-                    model="gpt-4o-mini",
+                    model="gpt-4",
                     temperature = 0.6,
                     messages=[
                         {"role": "system", "content": processing_prompt},
