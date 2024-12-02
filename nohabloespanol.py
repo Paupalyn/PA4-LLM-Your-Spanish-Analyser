@@ -53,7 +53,6 @@ if st.button("Analizar Texto"):
         with st.spinner(random.choice(loading_meme)):        
             try:
                 # Set OpenAI API key
-                openai.api_key = user_api_key
                 response = client.chat.completions.create(
                     model="gpt-4o-mini",
                     temperature = 0.6,
@@ -63,7 +62,7 @@ if st.button("Analizar Texto"):
                     ]
                 )
                 if response and 'choices' in response and len(response['choices']) > 0:
-                    esp_json = response['choices'][0]['message']['content']
+                    esp_json = response.choices[0].message.content
                     if esp_json.strip():  # Ensure the response is not empty
                         try:
                             esp_list = json.loads(esp_json)  # Parse the JSON response
