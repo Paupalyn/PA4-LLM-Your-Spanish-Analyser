@@ -63,11 +63,11 @@ if st.button("Analizar Texto"):
                     ]
                 )
                 if response and response.choices:
-                    esp_json = response.choices[0].message['content']
+                    esp_json = response.choices[0].message.content
                     esp_list = json.loads(esp_json)
 
                 # Create a DataFrame
-                    df = pd.DataFrame(results)
+                    df = pd.DataFrame(esp_list)
 
                     # Display the DataFrame
                     st.markdown("Spanish Analysed Table 💁‍♀️")
