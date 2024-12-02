@@ -50,8 +50,7 @@ if st.button("Analizar Texto"):
     elif not user_input.strip():
         st.error("Please enter some text to analyze.")
     else:
-        with st.spinner(random.choice(loading_meme)):
-                    
+        with st.spinner(random.choice(loading_meme)):        
             try:
                 # Set OpenAI API key
                 openai.api_key = api_key
@@ -63,24 +62,26 @@ if st.button("Analizar Texto"):
                         {"role": "user", "content": user_input},
                     ]
                 )
-                if response and response.get('choices'):
-                    esp_json = response['choices'][0]['message']['content']
+                if response and response.choices:
+                    esp_json = response.choices[0].message['content']
                     esp_list = json.loads(esp_json)
 
                 # Create a DataFrame
-                df = pd.DataFrame(results)
+                    df = pd.DataFrame(results)
 
-                # Display the DataFrame
-                st.markdown("Spanish Analysed Table 💁‍♀️")
-                st.dataframe(df)  # Display DataFrame
+                    # Display the DataFrame
+                    st.markdown("Spanish Analysed Table 💁‍♀️")
+                    st.dataframe(df)  # Display DataFrame
                 
-                # Allow CSV download
-                csv = data.to_csv(index=False, encoding='utf-8-sig').encode('utf-8-sig')
-                st.download_button(
-                    label="Download Results as CSV",
-                    data=csv,
-                    file_name="spanish_text_analysis.csv",
-                    mime="text/csv",
-                )
+                    # Allow CSV download
+                    csv = data.to_csv(index=False, encoding='utf-8-sig').encode('utf-8-sig')
+                    st.download_button(
+                        label="Download Results as CSV",
+                        data=csv,
+                        file_name="spanish_text_analysis.csv",
+                        mime="text/csv",
+                    )
+                else:
+                    st.error("No valid response received from the API.")
             except Exception as e:
                 st.error(f"An error occurred: {e}")
