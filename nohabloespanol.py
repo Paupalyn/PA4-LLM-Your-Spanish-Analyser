@@ -1,6 +1,7 @@
 import streamlit as st
 import openai
 import pandas as pd
+import json
 
 # Title and description
 st.title("🎀 Tu Spanish Text Analyser 🇪🇸 🖋️")
@@ -37,6 +38,17 @@ if st.button("Analizar Texto"):
     elif not user_input.strip():
         st.error("Please enter some text to analyze.")
     else:
+        st.info = [
+            "Loading… because irregular verbs need therapy.",
+            "Wait… we’re still arguing with el agua, which is feminine but insists it’s not.",
+            "One second… trying to explain why burro doesn’t mean butter.",
+            "Processing… just like you’re processing that esposa can mean ‘wife’ or ‘handcuffs.’",
+            "Wait a moment… we’re deciding if the subjunctive is really necessary. (Spoiler: it is.)",
+            "Loading… translating ¡Caramba! because honestly, even we’re not sure what it means.",
+            "Please wait… looking for someone who truly understands por and para.",
+            "Hold on… debating whether ll sounds like ‘y,’ ‘j,’ or nothing today."
+        ]
+        meme_list = st.spinner(text=random.choice(st.info))
         try:
             # Set OpenAI API key
             openai.api_key = api_key
@@ -50,6 +62,8 @@ if st.button("Analizar Texto"):
                     {"role": "user", "content": user_input},
                 ]
             )
+            esp_json = response.choices[0].message.content
+            esp_list = json.loads(esp_json)
             
             # Extract and parse the response
             result_content = response['choices'][0]['message']['content']
@@ -70,3 +84,20 @@ if st.button("Analizar Texto"):
                 st.error(f"Error parsing results: {parse_error}")
         except Exception as api_error:
             st.error(f"Error with OpenAI API: {api_error}")
+
+        #สร้าง DataFrame
+        df = pd.DataFrame(results)
+
+        #แสดงผล
+        st.subheader("Spanish Analysed Table 💁‍♀️")
+        st.dataframe(df)≤
+       
+
+        #ดาวน์โหลด CSV
+        csv = df.to_csv(index=False, encoding='utf-8-sig').encode('utf-8-sig')
+        st.download_button(
+            label="🪄 download (CSV)",
+            data=csv,
+            file_name="nohablamosespanol.csv",
+            mime='text/csv'
+        )
