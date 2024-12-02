@@ -63,8 +63,9 @@ if st.button("Analizar Texto"):
                         {"role": "user", "content": user_input},
                     ]
                 )
-                esp_json = response.choices[0].message.content
-                esp_list = json.loads(esp_json)
+                if response and response.get('choices'):
+                    esp_json = response['choices'][0]['message']['content']
+                    esp_list = json.loads(esp_json)
 
                 # Create a DataFrame
                 df = pd.DataFrame(results)
