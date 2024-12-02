@@ -49,11 +49,9 @@ if st.button("Analizar Texto"):
         st.error("Please enter some text to analyze.")
     else:
         with st.spinner(random.choice(loading_meme)):
-        try:
-            # Set OpenAI API key
-            openai.api_key = api_key
-            
-            # API call to OpenAI
+            try:
+                # Set OpenAI API key
+                openai.api_key = api_key
             response = client.chat.completions.create(
                 model="gpt-4o-mini",
                 temperature = 0.6,
