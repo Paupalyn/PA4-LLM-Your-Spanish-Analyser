@@ -60,8 +60,8 @@ if st.button("Analizar Texto"):
                         {"role": "user", "content": user_input},
                     ]
                 )
-            esp_json = response.choices[0].message.content
-            esp_list = json.loads(esp_json)
+                esp_json = response.choices[0].message.content
+                esp_list = json.loads(esp_json)
             
             # Extract and parse the response
             result_content = response['choices'][0]['message']['content']
