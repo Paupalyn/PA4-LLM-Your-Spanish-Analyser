@@ -43,7 +43,7 @@ loading_meme = [
         ]
 
 # Submit button
-client = openai.OpenAI(api_key=user_api_key)
+client = openai.OpenAI(api_key=api_key)
 if st.button("Analizar Texto"):
     if not api_key:
         st.error("Please enter your OpenAI API key in the sidebar.")
