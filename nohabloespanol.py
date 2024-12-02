@@ -44,7 +44,7 @@ if st.button("Analizar Texto"):
             # API call to OpenAI
             response = client.chat.completions.create(
                 model="gpt-4o-mini",
-                temperature = 0.6
+                temperature = 0.6,
                 messages=[
                     {"role": "system", "content": processing_prompt},
                     {"role": "user", "content": user_input},
