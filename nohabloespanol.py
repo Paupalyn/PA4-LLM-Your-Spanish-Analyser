@@ -47,6 +47,13 @@ loading_meme = [
     "Hold on… 🧘‍♀️ debating whether ll sounds like ‘y,’ ‘j,’ or nothing today. 🤷‍♀️"
 ]
 
+# Load Spanish words
+@st.cache_data
+def load_spanish_words():
+    with open("spanish_words.json", "r", encoding="utf-8") as file:
+        return set(json.load(file))
+spanish_words = load_spanish_words()
+
 # Function to clean input text
 def clean_text(text):
     # Remove special characters
@@ -54,12 +61,12 @@ def clean_text(text):
     return cleaned_text
 
 # Function to validate if text is Spanish
-def is_valid_spanish(text):
-    # Check if the text contains non-Spanish words
-    non_spanish_pattern = r'[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+'
-    if re.fullmatch(non_spanish_pattern, text):
-        return True
-    return False
+def is_valid_spanish(text, spanish_words):
+    words = clean_text(text).split()
+    invalid_words = [word for word in words if word.lower() not in spanish_words]
+    if invalid_words:
+        return False, invalid_words
+    return True, []
 
 # Submit button
 if st.button("✦ Analizar Texto ✦"):
@@ -70,7 +77,8 @@ if st.button("✦ Analizar Texto ✦"):
     else:
         # Clean and validate the input
         cleaned_input = clean_text(user_input)
-        if not is_valid_spanish(cleaned_input):
+        is_valid, invalid_words = validate_spanish_text(cleaned_input, spanish_words)
+        if not is_valid:
             st.error("⚠️ Uh-oh It seems like your text contains non-Spanish words or invalid characters.😕 Please try again.")
         else:
             # Build OpenAI chat messages
