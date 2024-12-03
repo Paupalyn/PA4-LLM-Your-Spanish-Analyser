@@ -19,7 +19,7 @@ This app analyzes Spanish text, breaking it into individual words and providing:
 user_api_key = st.sidebar.text_input("🔒 Enter your OpenAI API key below ↓ ", type="password")
 
 # Input text area
-user_input = st.text_area("Enter your Spanish text ✍️:", "Escribe algo aquí!", height=200)
+user_input = st.text_area("Enter your Spanish text ✍️ (reminder: with no punctuations please):", "Escribe algo aquí!", height=200)
 
 client = openai.OpenAI(api_key = user_api_key)
 # Prompt definition
