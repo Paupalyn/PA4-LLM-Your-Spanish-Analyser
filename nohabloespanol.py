@@ -107,9 +107,6 @@ if st.button("✦ Analizar Texto ✦"):
                                 "Thai Translation": item.get("thai_translation", "N/A"),
                                 "Part of Speech": item.get("part_of_speech", "N/A")
                             })
-                    except json.JSONDecodeError:
-                        # Detect if the error is due to non-Spanish words or characters
-                        st.error(f"⚠️ Uh-oh It seems like your text contains non-Spanish words or invalid characters.")
 
                 except Exception as e:
                     st.error(f"An error occurred while processing your text: {str(e)}")
