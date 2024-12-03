@@ -73,6 +73,7 @@ def is_valid_spanish(text, spanish_words):
     if invalid_words:
         return False, invalid_words
     return True, []
+spanish_words = load_spanish_words()
 
 # Submit button
 if st.button("✦ Analizar Texto ✦"):
@@ -98,9 +99,9 @@ if st.button("✦ Analizar Texto ✦"):
                 try:
                     # Send request to OpenAI API
                     response = client.chat.completions.create(
-                        model="gpt-4o-mini",
-                        messages=messages,
-                        temperature=0.6
+                        model = "gpt-4o-mini",
+                        messages = messages,
+                        temperature = 0.6
                     )
                     chat_response = response.choices[0].message.content
                     esp_data = json.loads(chat_response)
