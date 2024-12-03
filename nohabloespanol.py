@@ -49,7 +49,7 @@ loading_meme = [
 # Submit button
 if st.button("✦ Analizar Texto ✦"):
     if not user_api_key:
-        st.error("Uh oh where is your API key?")
+        st.error("Uh oh where is your API key? Enter it and try again!")
     elif not user_input.strip():
         st.error("Please Enter some Spanish text to analyze.🧏‍♀️")
     else:
