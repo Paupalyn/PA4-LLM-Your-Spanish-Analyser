@@ -9,6 +9,7 @@ import re
 st.title("🎀 Tu Spanish Text Analyser 🇪🇸 🖋️")
 st.markdown("""
 This app analyzes Spanish text, breaking it into individual words and providing: \n
+✶ Base Form \n
 ✶ IPA transcription \n
 ✶ English and Thai translations \n
 ✶ Part of Speech (POS) information \n
@@ -61,7 +62,7 @@ def is_valid_spanish(text):
 # Submit button
 if st.button("✦ Analizar Texto ✦"):
     if not user_api_key:
-        st.error("Uh-oh where is your API key? Enter it and try again!")
+        st.error("Uh-oh where is your 🔑 API key? Enter it and try again!")
     elif not user_input.strip():
         st.error("Please Enter some Spanish text to analyze.🧏‍♀️")
     else:
