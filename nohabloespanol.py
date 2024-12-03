@@ -8,16 +8,16 @@ import random
 st.title("🎀 Tu Spanish Text Analyser 🇪🇸 🖋️")
 st.markdown("""
 This app analyzes Spanish text, breaking it into individual words and providing:
-- IPA transcription
-- English and Thai translations
-- Part of Speech (POS) information
+✶ IPA transcription
+✶ English and Thai translations
+✶ Part of Speech (POS) information
 """)
 
 # Sidebar for API key
-user_api_key = st.sidebar.text_input("Enter your OpenAI API key 🔐", type="password")
+user_api_key = st.sidebar.text_input("🔒 Enter your OpenAI API key below ↓ ", type="password")
 
 # Input text area
-user_input = st.text_area("Enter Spanish text ✍️:", "Escribe algo aquí.", height=200)
+user_input = st.text_area("Enter your Spanish text ✍️:", "Escribe algo aquí!", height=200)
 
 client = openai.OpenAI(api_key = user_api_key)
 # Prompt definition
@@ -36,22 +36,22 @@ Return the data as a JSON array of objects, one object per word, formatted like 
 
 # Funny loading memes
 loading_meme = [
-    "Loading… because irregular verbs need therapy.",
-    "Wait… we’re still arguing with el agua, which is feminine but insists it’s not.",
-    "One second… trying to explain why burro doesn’t mean butter.",
-    "Processing… just like you’re processing that esposa can mean ‘wife’ or ‘handcuffs.’",
-    "Wait a moment… we’re deciding if the subjunctive is really necessary. (Spoiler: it is.)",
-    "Loading… translating ¡Caramba! because honestly, even we’re not sure what it means.",
-    "Please wait… looking for someone who truly understands por and para.",
-    "Hold on… debating whether ll sounds like ‘y,’ ‘j,’ or nothing today."
+    "Loading… because irregular verbs need therapy.💆‍♀️",
+    "Wait… we’re still arguing with el agua 💧, which is feminine but insists it’s not.🏳️‍⚧️✨",
+    "One second… ☝️ trying to explain why burro doesn’t mean butter.🧈",
+    "Processing… 🤔 just like you’re processing that esposa can mean ‘wife’ or ‘handcuffs.⛓️’",
+    "Wait a moment… ✋ we’re deciding if the subjunctive is really necessary. (Spoiler: it is.)🫢",
+    "Loading… ⚙️ translating ¡Caramba! because honestly, even we’re not sure what it means.😯",
+    "Please wait… 🚶‍♀️looking for someone who truly understands por and para.🔍",
+    "Hold on… 🧘‍♀️ debating whether ll sounds like ‘y,’ ‘j,’ or nothing today.🤷‍♀️"
 ]
 
 # Submit button
-if st.button("Analizar Texto"):
+if st.button("✦ Analizar Texto ✦"):
     if not user_api_key:
-        st.error("Please enter your OpenAI API key in the sidebar.")
+        st.error("Uh oh where is your API key?")
     elif not user_input.strip():
-        st.error("Please enter some text to analyze.")
+        st.error("Please Enter some Spanish text to analyze.🧏‍♀️")
     else:
         # Build OpenAI chat messages
         results = []
@@ -94,7 +94,7 @@ if st.button("Analizar Texto"):
         df = pd.DataFrame(results)
 
         # Display the DataFrame
-        st.subheader("Aqui es tu Spanish Analysed Table 💁‍♀️")
+        st.subheader(" ⭑ Aquí es tu Spanish Analysed Table 💁‍♀️")
         st.dataframe(df)
 
         # Allow download as CSV
