@@ -92,6 +92,7 @@ if st.button("✦ Analizar Texto ✦"):
                         for item in esp_data:
                             results.append({
                                 "Word": item.get("word", "N/A"),
+                                "Base Form": item.get("base_form", "N/A"),
                                 "IPA": item.get("IPA", "N/A"),
                                 "English Translation": item.get("english_translation", "N/A"),
                                 "Thai Translation": item.get("thai_translation", "N/A"),
