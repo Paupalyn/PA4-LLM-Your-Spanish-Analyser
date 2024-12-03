@@ -7,7 +7,7 @@ import random
 # Title and description
 st.title("🎀 Tu Spanish Text Analyser 🇪🇸 🖋️")
 st.markdown("""
-This app analyzes Spanish text, breaking it into individual words and providing:
+This app analyzes Spanish text, breaking it into individual words and providing: \n
 ✶ IPA transcription \n
 ✶ English and Thai translations \n
 ✶ Part of Speech (POS) information \n
