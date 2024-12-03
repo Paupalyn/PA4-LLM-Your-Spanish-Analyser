@@ -36,14 +36,14 @@ Return the data as a JSON array of objects, one object per word, formatted like 
 
 # Funny loading memes
 loading_meme = [
-    "Loading… because irregular verbs need therapy.💆‍♀️",
-    "Wait… we’re still arguing with el agua 💧, which is feminine but insists it’s not.🏳️‍⚧️✨",
-    "One second… ☝️ trying to explain why burro doesn’t mean butter.🧈",
-    "Processing… 🤔 just like you’re processing that esposa can mean ‘wife’ or ‘handcuffs.⛓️’",
-    "Wait a moment… ✋ we’re deciding if the subjunctive is really necessary. (Spoiler: it is.)🫢",
-    "Loading… ⚙️ translating ¡Caramba! because honestly, even we’re not sure what it means.😯",
-    "Please wait… 🚶‍♀️looking for someone who truly understands por and para.🔍",
-    "Hold on… 🧘‍♀️ debating whether ll sounds like ‘y,’ ‘j,’ or nothing today.🤷‍♀️"
+    "Loading… because irregular verbs need therapy. 💆‍♀️",
+    "Wait… we’re still arguing with el agua 💧, which is feminine but insists it’s not. 🏳️‍⚧️✨",
+    "One second… ☝️ trying to explain why burro doesn’t mean butter. 🧈",
+    "Processing… 🤔 just like you’re processing that esposa can mean ‘wife’ or ‘handcuffs. ⛓️’",
+    "Wait a moment… ✋ we’re deciding if the subjunctive is really necessary. (Spoiler: it is.) 🫢",
+    "Loading… ⚙️ translating ¡Caramba! because honestly, even we’re not sure what it means. 😯",
+    "Please wait… 🚶‍♀️looking for someone who truly understands por and para. 🔍",
+    "Hold on… 🧘‍♀️ debating whether ll sounds like ‘y,’ ‘j,’ or nothing today. 🤷‍♀️"
 ]
 
 # Submit button
