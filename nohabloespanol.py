@@ -51,9 +51,9 @@ loading_meme = [
     "Hold on… 🧘‍♀️ debating whether ll sounds like ‘y,’ ‘j,’ or nothing today. 🤷‍♀️"
 ]
 
-# Function to clean the text by removing a wide range of special characters
+# Function to clean the text by removing specific punctuation marks and special characters
 def clean_text(text):
-    # Regular expression to remove specific punctuation marks and special characters
+    # Regular expression to remove special characters
     cleaned_text = re.sub(r"[#'\"*^%$£@<>.?!/\\|&\(\)\[\]\{\}-+=;:]", "", text)
     return cleaned_text
    
