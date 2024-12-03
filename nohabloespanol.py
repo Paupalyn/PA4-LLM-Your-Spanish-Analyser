@@ -60,15 +60,8 @@ def load_spanish_words():
         print("File not found")
     return words
 
-# Function to check if input contains non-Latin characters
-def contains_non_latin(text):
-    non_latin_pattern = re.compile('[^\x00-\x7F]+')
-    return bool(non_latin_pattern.search(text))
-
 # Function to validate if text is Spanish
 def is_valid_spanish(text, spanish_words):
-    if contains_non_latin(text):
-        return False, "Non-Latin characters detected"
     words = text.split()
     invalid_words = [word for word in words if word.lower() not in spanish_words]
     if invalid_words:
