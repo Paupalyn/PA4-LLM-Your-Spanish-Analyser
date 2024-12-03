@@ -8,7 +8,7 @@ import re
 # Title and description
 st.title("🎀 Tu Spanish Text Analyser 🇪🇸 🖋️")
 st.markdown("""
-This app analyses Spanish text, breaking it into individual words and providing: \n
+This app analyzes Spanish text, breaking it into individual words and providing: \n
 ✶ Base Form \n
 ✶ IPA transcription \n
 ✶ English and Thai translations \n
@@ -51,13 +51,6 @@ loading_meme = [
     "Hold on… 🧘‍♀️ debating whether ll sounds like ‘y,’ ‘j,’ or nothing today. 🤷‍♀️"
 ]
 
-
-# Function to remove specific punctuation marks
-def remove_punctuation(text):
-    # ใช้ regex ลบ . ? ! , จากข้อความ
-    cleaned_text = re.sub(r'[.!?,]', '', text)
-    return cleaned_text
-   
 # Function to validate if text is Spanish
 def is_valid_spanish(text):
     pattern = re.compile(r'^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$')  # Regex for Spanish alphabet
@@ -73,9 +66,8 @@ if st.button("✦ Analizar Texto ✦"):
     elif not user_input.strip():
         st.error("Please Enter some Spanish text to analyze.🧏‍♀️")
     else:
-        # Clean and validate the input
-        cleaned_input = remove_punctuation(user_input)
-        is_valid, invalid_words = is_valid_spanish(cleaned_input)
+        # Validate the input
+        is_valid, invalid_words = is_valid_spanish(user_input)
         if not is_valid:
                 st.error(f"⚠️ Uh-oh It seems like your text contains non-Spanish words or invalid characters: {', '.join(invalid_words)}.")
         else:
@@ -83,7 +75,7 @@ if st.button("✦ Analizar Texto ✦"):
             results = []
             messages = [
                 {"role": "system", "content": prompt},
-                {"role": "user", "content": cleaned_input}
+                {"role": "user", "content": user_input}
             ]
             
             with st.spinner(random.choice(loading_meme)):  # Add funny loading message
@@ -107,6 +99,8 @@ if st.button("✦ Analizar Texto ✦"):
                                 "Thai Translation": item.get("thai_translation", "N/A"),
                                 "Part of Speech": item.get("part_of_speech", "N/A")
                             })
+                    except json.JSONDecodeError:
+                        st.error("The API response could not be processed as JSON. Please try again.")
 
                 except Exception as e:
                     st.error(f"An error occurred while processing your text: {str(e)}")
