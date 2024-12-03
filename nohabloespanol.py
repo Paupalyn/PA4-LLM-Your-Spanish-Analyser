@@ -50,7 +50,7 @@ loading_meme = [
 # Load Spanish words
 @st.cache_data
 def load_spanish_words():
-    with open("spanish_words.txt", "r", encoding="utf-8") as file:
+    with open("./data/spanish_words.txt", "r", encoding="utf-8") as file:
         return set(json.load(file))
 spanish_words = load_spanish_words()
 
