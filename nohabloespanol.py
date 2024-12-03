@@ -47,10 +47,10 @@ loading_meme = [
 ]
 
 # Function to process text with OpenAI API
-def process_text(user_api_key, text):
+client = openai.OpenAI(api_key=user_api_key)
+def process_text(api_key, text):
     try:
-        openai.api_key = user_api_key
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": processing_prompt},
