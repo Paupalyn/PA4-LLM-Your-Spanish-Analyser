@@ -48,11 +48,17 @@ loading_meme = [
 ]
 
 # Load Spanish words
-@st.cache_data
 def load_spanish_words():
-    with open("./data/spanish_words.txt", "r") as file:
-        return set(json.load(file))
-spanish_words = load_spanish_words()
+    words = set()
+    try:
+        with open("./data/spanish_words.txt", "r") as file:
+            for line in file:
+                word = line.strip() 
+                if word:
+                    words.add(word)
+    except FileNotFoundError:
+        print("File not found")
+    return words
 
 # Function to clean input text
 def clean_text(text):
