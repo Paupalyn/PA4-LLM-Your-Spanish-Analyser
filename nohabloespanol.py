@@ -66,10 +66,15 @@ def clean_text(text):
     cleaned_text = re.sub(r'[^a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]', '', text)
     return cleaned_text
 
+# Function to check if input contains non-Latin characters
+def contains_non_latin(text):
+    non_latin_pattern = re.compile('[^\x00-\x7F]+')
+    return bool(non_latin_pattern.search(text))
+
 # Function to validate if text is Spanish
 def is_valid_spanish(text, spanish_words):
-    if re.search(r'[^a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]', text):
-        return False, []  # Contains non-Latin characters
+    if contains_non_latin(text):
+        return False, "Non-Latin characters detected"
     words = clean_text(text).split()
     invalid_words = [word for word in words if word.lower() not in spanish_words]
     if invalid_words:
@@ -88,22 +93,25 @@ if st.button("✦ Analizar Texto ✦"):
         cleaned_input = clean_text(user_input)
         is_valid, invalid_words = is_valid_spanish(cleaned_input, spanish_words)
         if not is_valid:
-            st.error("⚠️ Uh-oh It seems like your text contains non-Spanish words or invalid characters.😕 Please try again.")
+            if invalid_words == "Non-Latin characters detected":
+                st.error("⚠️ Uh-oh It seems like your text contains non-Spanish words or invalid characters.😕 Please try again.")
+            else:
+                st.error(f"⚠️ Uh-oh It seems like your text contains non-Spanish words or invalid characters.: {', '.join(invalid_words)}.")
         else:
-            # Build OpenAI chat messages
+            # Proceed with OpenAI API call as usual
             results = []
             messages = [
                 {"role": "system", "content": prompt},
                 {"role": "user", "content": cleaned_input}
             ]
-
+            
             with st.spinner(random.choice(loading_meme)):  # Add funny loading message
                 try:
                     # Send request to OpenAI API
                     response = client.chat.completions.create(
-                        model = "gpt-4o-mini",
-                        messages = messages,
-                        temperature = 0.6
+                        model="gpt-4o-mini",
+                        messages=messages,
+                        temperature=0.6
                     )
                     chat_response = response.choices[0].message.content
                     esp_data = json.loads(chat_response)
