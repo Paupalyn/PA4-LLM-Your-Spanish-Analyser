@@ -51,6 +51,13 @@ loading_meme = [
     "Hold on… 🧘‍♀️ debating whether ll sounds like ‘y,’ ‘j,’ or nothing today. 🤷‍♀️"
 ]
 
+
+# Function to remove specific punctuation marks
+def remove_punctuation(text):
+    # ใช้ regex ลบ . ? ! , จากข้อความ
+    cleaned_text = re.sub(r'[.!?,]', '', text)
+    return cleaned_text
+   
 # Function to validate if text is Spanish
 def is_valid_spanish(text):
     pattern = re.compile(r'^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$')  # Regex for Spanish alphabet
@@ -66,8 +73,9 @@ if st.button("✦ Analizar Texto ✦"):
     elif not user_input.strip():
         st.error("Please Enter some Spanish text to analyze.🧏‍♀️")
     else:
-        # Validate the input
-        is_valid, invalid_words = is_valid_spanish(user_input)
+        # Clean and validate the input
+        cleaned_input = remove_punctuation(user_input)
+        is_valid, invalid_words = is_valid_spanish(cleaned_input)
         if not is_valid:
                 st.error(f"⚠️ Uh-oh It seems like your text contains non-Spanish words or invalid characters: {', '.join(invalid_words)}.")
         else:
@@ -75,7 +83,7 @@ if st.button("✦ Analizar Texto ✦"):
             results = []
             messages = [
                 {"role": "system", "content": prompt},
-                {"role": "user", "content": user_input}
+                {"role": "user", "content": cleaned_input}
             ]
             
             with st.spinner(random.choice(loading_meme)):  # Add funny loading message
