@@ -3,6 +3,7 @@ import openai
 import json
 import pandas as pd
 import random
+import re
 
 # Title and description
 st.title("🎀 Tu Spanish Text Analyser 🇪🇸 🖋️")
