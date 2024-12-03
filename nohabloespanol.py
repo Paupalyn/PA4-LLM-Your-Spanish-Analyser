@@ -68,6 +68,8 @@ def clean_text(text):
 
 # Function to validate if text is Spanish
 def is_valid_spanish(text, spanish_words):
+    if re.search(r'[^a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]', text):
+        return False, []  # Contains non-Latin characters
     words = clean_text(text).split()
     invalid_words = [word for word in words if word.lower() not in spanish_words]
     if invalid_words:
