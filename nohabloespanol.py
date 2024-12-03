@@ -47,9 +47,9 @@ loading_meme = [
 ]
 
 # Function to process text with OpenAI API
-def process_text(api_key, text):
+def process_text(user_api_key, text):
     try:
-        openai.api_key = api_key
+        openai.api_key = user_api_key
         response = openai.ChatCompletion.create(
             model="gpt-4o-mini",
             messages=[
@@ -58,6 +58,7 @@ def process_text(api_key, text):
             ],
             temperature=0.6
         )
+        st.write("API Response Raw:", response) 
         return response
     except openai.error.OpenAIError as api_error:
         st.error(f"OpenAI API error: {api_error}")
