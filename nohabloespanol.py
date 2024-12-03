@@ -51,12 +51,6 @@ loading_meme = [
     "Hold on… 🧘‍♀️ debating whether ll sounds like ‘y,’ ‘j,’ or nothing today. 🤷‍♀️"
 ]
 
-# Function to clean the text by removing specific punctuation marks and special characters
-def clean_text(text):
-    # Regular expression to remove special characters
-    cleaned_text = re.sub(r"[#'\"*^%$£@<>.?!/\\|&\(\)\[\]\{\}-+=;:]", "", text)
-    return cleaned_text
-   
 # Function to validate if text is Spanish
 def is_valid_spanish(text):
     pattern = re.compile(r'^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$')  # Regex for Spanish alphabet
@@ -72,9 +66,8 @@ if st.button("✦ Analizar Texto ✦"):
     elif not user_input.strip():
         st.error("Please Enter some Spanish text to analyze.🧏‍♀️")
     else:
-        # Clean and validate the input
-        cleaned_user_input = clean_text(user_input)
-        is_valid, invalid_words = is_valid_spanish(cleaned_user_input, spanish_words)
+        # Validate the input
+        is_valid, invalid_words = is_valid_spanish(user_input)
         if not is_valid:
                 st.error(f"⚠️ Uh-oh It seems like your text contains non-Spanish words or invalid characters: {', '.join(invalid_words)}.")
         else:
@@ -94,8 +87,9 @@ if st.button("✦ Analizar Texto ✦"):
                         temperature = 0.6
                     )
                     chat_response = response.choices[0].message.content
-                    esp_data = json.loads(chat_response)
+
                     try:
+                        esp_data = json.loads(chat_response)
                         for item in esp_data:
                             results.append({
                                 "Word": item.get("word", "N/A"),
