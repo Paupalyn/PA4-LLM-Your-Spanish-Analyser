@@ -31,7 +31,7 @@ Given a single Spanish word or a Spanish text, split it into words (if it's a te
 - Part of speech (e.g., noun, verb, adjective)
 Return the data as a JSON array of objects, even if there's only one word. For example:
 [
-    {"word": "dias", "IPA": "ˈdi.as", "english_translation": "days", "thai_translation": "วัน", "part_of_speech": "noun"}
+    {"word": "días", "IPA": "ˈdi.as", "english_translation": "days", "thai_translation": "วัน", "part_of_speech": "noun"}
 ]
 """
 
