@@ -8,9 +8,9 @@ import random
 st.title("🎀 Tu Spanish Text Analyser 🇪🇸 🖋️")
 st.markdown("""
 This app analyzes Spanish text, breaking it into individual words and providing:
-✶ IPA transcription
-✶ English and Thai translations
-✶ Part of Speech (POS) information
+✶ IPA transcription \n
+✶ English and Thai translations \n
+✶ Part of Speech (POS) information \n
 """)
 
 # Sidebar for API key
