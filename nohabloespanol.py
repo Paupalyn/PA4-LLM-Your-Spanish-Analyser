@@ -108,7 +108,8 @@ if st.button("✦ Analizar Texto ✦"):
                                 "Part of Speech": item.get("part_of_speech", "N/A")
                             })
                     except json.JSONDecodeError:
-                        st.error("The API response could not be processed as JSON. Please try again.")
+                        # Detect if the error is due to non-Spanish words or characters
+                        st.error(f"⚠️ Uh-oh It seems like your text contains non-Spanish words or invalid characters.")
 
                 except Exception as e:
                     st.error(f"An error occurred while processing your text: {str(e)}")
