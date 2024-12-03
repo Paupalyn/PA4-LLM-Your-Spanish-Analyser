@@ -77,7 +77,7 @@ if st.button("✦ Analizar Texto ✦"):
     else:
         # Clean and validate the input
         cleaned_input = clean_text(user_input)
-        is_valid, invalid_words = validate_spanish_text(cleaned_input, spanish_words)
+        is_valid, invalid_words = is_valid_spanish(cleaned_input, spanish_words)
         if not is_valid:
             st.error("⚠️ Uh-oh It seems like your text contains non-Spanish words or invalid characters.😕 Please try again.")
         else:
