@@ -23,15 +23,15 @@ user_input = st.text_area("Enter your Spanish text ✍️:", "Escribe algo aquí
 client = openai.OpenAI(api_key = user_api_key)
 # Prompt definition
 prompt = """You are a linguist specializing in Spanish. 
-Given a Spanish text, split it into words and provide:
+Given a single Spanish word or a Spanish text, split it into words (if it's a text) or process it directly (if it's a single word). Provide:
 - Word in Spanish
 - IPA transcription
 - English translation
 - Thai translation
 - Part of speech (e.g., noun, verb, adjective)
-Return the data as a JSON array of objects, one object per word, formatted like this:
+Return the data as a JSON array of objects, even if there's only one word. For example:
 [
-    {"word": "hola", "IPA": "ˈo.la", "english_translation": "hello", "thai_translation": "สวัสดี", "part_of_speech": "interjection"}
+    {"word": "dias", "IPA": "ˈdi.as", "english_translation": "days", "thai_translation": "วัน", "part_of_speech": "noun"}
 ]
 """
 
