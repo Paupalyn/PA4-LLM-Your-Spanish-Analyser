@@ -1,8 +1,7 @@
 import streamlit as st
 import openai
-import pandas as pd
 import json
-import random
+import pandas as pd
 
 # Title and description
 st.title("🎀 Tu Spanish Text Analyser 🇪🇸 🖋️")
@@ -19,19 +18,18 @@ user_api_key = st.sidebar.text_input("Enter your OpenAI API key 🔐", type="pas
 # Input text area
 user_input = st.text_area("Enter Spanish text ✍️:", "Escribe algo aquí.", height=200)
 
-# Prompt for OpenAI
-processing_prompt = """
-You are a linguist specializing in Spanish. Given a Spanish text, split it into words and provide:
+# Prompt definition
+prompt = """You are a linguist specializing in Spanish. 
+Given a Spanish text, split it into words and provide:
 - Word in Spanish
 - IPA transcription
 - English translation
 - Thai translation
 - Part of speech (e.g., noun, verb, adjective)
-
-Return the data as a JSON array of objects like this:
+Return the data as a JSON array of objects, one object per word, formatted like this:
 [
     {"word": "hola", "IPA": "ˈo.la", "english_translation": "hello", "thai_translation": "สวัสดี", "part_of_speech": "interjection"}
-].
+]
 """
 
 # Funny loading memes
@@ -46,27 +44,6 @@ loading_meme = [
     "Hold on… debating whether ll sounds like ‘y,’ ‘j,’ or nothing today."
 ]
 
-# Function to process text with OpenAI API
-client = openai.OpenAI(api_key=user_api_key)
-def process_text(api_key, text):
-    try:
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {"role": "system", "content": processing_prompt},
-                {"role": "user", "content": text},
-            ],
-            temperature=0.6
-        )
-        st.write("API Response Raw:", response) 
-        return response
-    except openai.error.OpenAIError as api_error:
-        st.error(f"OpenAI API error: {api_error}")
-        return None
-    except Exception as e:
-        st.error(f"Unexpected error: {e}")
-        return None
-
 # Submit button
 if st.button("Analizar Texto"):
     if not user_api_key:
@@ -74,34 +51,56 @@ if st.button("Analizar Texto"):
     elif not user_input.strip():
         st.error("Please enter some text to analyze.")
     else:
-        with st.spinner(random.choice(loading_meme)):
-            response = process_text(user_api_key, user_input)
-            if response:
-                if "choices" in response and len(response["choices"]) > 0:
-                    api_content = response["choices"][0]["message"]["content"]
-                    if api_content.strip():
-                        try:
-                            esp_list = json.loads(api_content)
-                            # Create a DataFrame
-                            df = pd.DataFrame(esp_list)
+        # Build OpenAI chat messages
+        messages = [
+            {"role": "system", "content": prompt},
+            {"role": "user", "content": user_input}
+        ]
+        client = openai.OpenAI(api_key=user_api_key)
 
-                            # Display the DataFrame
-                            st.markdown("### Spanish Analysed Table 💁‍♀️")
-                            st.dataframe(df)
+        with st.spinner(random.choice(loading_meme)):  # Add funny loading message
+            try:
+                # Send request to OpenAI API
+                response = client.chat.completions.create(
+                    model = "gpt-4o-mini",
+                    messages = messages, 
+                    temperature = 0.6
+                )
+                chat_response = response.choices[0].message.content
+                esp_data = json.loads(chat_response)
+                
+                for item in analysis_data:
+                    results.append({
+                        "Word": item.get("word", "N/A"),
+                       "IPA": item.get("IPA", "N/A"),
+                        "English Translation": item.get("english_translation", "N/A"),
+                        "Thai Translation": item.get("thai_translation", "N/A"),
+                        "Part of Speech": item.get("part_of_speech", "N/A")
+                    })
+            
+            except Exception as e:
+                st.error(f"An error occurred while processing your text: {str(e)}")
+                results.append({
+                    "Word": "Error",
+                    "IPA": "N/A",
+                    "English Translation": "N/A",
+                    "Thai Translation": "N/A",
+                    "Part of Speech": str(e)
+                })
 
-                            # Allow CSV download
-                            csv = df.to_csv(index=False, encoding="utf-8-sig").encode("utf-8-sig")
-                            st.download_button(
-                                label="Download Results as CSV",
-                                data=csv,
-                                file_name="spanish_text_analysis.csv",
-                                mime="text/csv",
-                            )
-                        except json.JSONDecodeError:
-                            st.error("Failed to parse the API response as JSON. Please check the prompt or input.")
-                    else:
-                        st.error("Received an empty response from the API.")
-                else:
-                    st.error("No valid response received from the OpenAI API.")
-            else:
-                st.error("Failed to process your request. Please check your input or API key.")
+            # Create a DataFrame
+            df = pd.DataFrame(results)
+
+            # Display the DataFrame
+            st.subheader("Aqui es tu Spanish Analysed Table 💁‍♀️")
+            st.dataframe(df)
+
+            # Allow download as CSV
+            csv = df.to_csv(index=False, encoding='utf-8-sig').encode('utf-8-sig')
+            st.download_button(
+                label="🪄 Download (CSV)",
+                data=csv,
+                file_name="spanish_text_analysis.csv",
+                mime='text/csv'
+            )
+
