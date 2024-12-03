@@ -86,7 +86,6 @@ if st.button("✦ Analizar Texto ✦"):
         # Validate the input
         is_valid, invalid_words = is_valid_spanish(user_input, spanish_words)
         if not is_valid:
-            if invalid_words == "Non-Latin characters detected":
                 st.error(f"⚠️ Uh-oh It seems like your text contains non-Spanish words or invalid characters: {', '.join(invalid_words)}.")
         else:
             # Proceed with OpenAI API call as usual
