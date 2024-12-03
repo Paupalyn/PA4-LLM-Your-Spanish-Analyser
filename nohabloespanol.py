@@ -50,7 +50,7 @@ loading_meme = [
 # Function to clean input text
 def clean_text(text):
     # Remove special characters
-    cleaned_text = re.sub(r'[^\w\sáéíóúüñÁÉÍÓÚÜÑ]', '', text)
+    cleaned_text = re.sub(r'[^a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]', '', text)
     return cleaned_text
 
 # Function to validate if text is Spanish
