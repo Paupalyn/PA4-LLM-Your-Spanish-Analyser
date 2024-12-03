@@ -46,63 +46,81 @@ loading_meme = [
     "Hold on… 🧘‍♀️ debating whether ll sounds like ‘y,’ ‘j,’ or nothing today. 🤷‍♀️"
 ]
 
+# Function to clean input text
+def clean_text(text):
+    # Remove special characters
+    cleaned_text = re.sub(r'[^\w\sáéíóúüñÁÉÍÓÚÜÑ]', '', text)
+    return cleaned_text
+
+# Function to validate if text is Spanish
+def is_valid_spanish(text):
+    # Check if the text contains non-Spanish words
+    non_spanish_pattern = r'[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+'
+    if re.fullmatch(non_spanish_pattern, text):
+        return True
+    return False
+
 # Submit button
 if st.button("✦ Analizar Texto ✦"):
     if not user_api_key:
-        st.error("Uh oh where is your API key? Enter it and try again!")
+        st.error("Uh-oh where is your API key? Enter it and try again!")
     elif not user_input.strip():
         st.error("Please Enter some Spanish text to analyze.🧏‍♀️")
     else:
-        # Build OpenAI chat messages
-        results = []
-        messages = [
-            {"role": "system", "content": prompt},
-            {"role": "user", "content": user_input}
-        ]
+        # Clean and validate the input
+        cleaned_input = clean_text(user_input)
+        if not is_valid_spanish(cleaned_input):
+            st.error("⚠️ Uh-oh It seems like your text contains non-Spanish words or invalid characters.😕 Please try again.")
+        else:
+            # Build OpenAI chat messages
+            results = []
+            messages = [
+                {"role": "system", "content": prompt},
+                {"role": "user", "content": cleaned_input}
+            ]
 
-        with st.spinner(random.choice(loading_meme)):  # Add funny loading message
-            try:
-                # Send request to OpenAI API
-                response = client.chat.completions.create(
-                    model = "gpt-4o-mini",
-                    messages = messages, 
-                    temperature = 0.6
-                )
-                chat_response = response.choices[0].message.content
-                esp_data = json.loads(chat_response)
-                
-                for item in esp_data:
+            with st.spinner(random.choice(loading_meme)):  # Add funny loading message
+                try:
+                    # Send request to OpenAI API
+                    response = client.chat.completions.create(
+                        model="gpt-4o-mini",
+                        messages=messages,
+                        temperature=0.6
+                    )
+                    chat_response = response.choices[0].message.content
+                    esp_data = json.loads(chat_response)
+
+                    for item in esp_data:
+                        results.append({
+                            "Word": item.get("word", "N/A"),
+                            "IPA": item.get("IPA", "N/A"),
+                            "English Translation": item.get("english_translation", "N/A"),
+                            "Thai Translation": item.get("thai_translation", "N/A"),
+                            "Part of Speech": item.get("part_of_speech", "N/A")
+                        })
+
+                except Exception as e:
+                    st.error(f"An error occurred while processing your text: {str(e)}")
                     results.append({
-                        "Word": item.get("word", "N/A"),
-                        "IPA": item.get("IPA", "N/A"),
-                        "English Translation": item.get("english_translation", "N/A"),
-                        "Thai Translation": item.get("thai_translation", "N/A"),
-                        "Part of Speech": item.get("part_of_speech", "N/A")
+                        "Word": "Error",
+                        "IPA": "N/A",
+                        "English Translation": "N/A",
+                        "Thai Translation": "N/A",
+                        "Part of Speech": str(e)
                     })
-            
-            except Exception as e:
-                st.error(f"An error occurred while processing your text: {str(e)}")
-                results.append({
-                    "Word": "Error",
-                    "IPA": "N/A",
-                    "English Translation": "N/A",
-                    "Thai Translation": "N/A",
-                    "Part of Speech": str(e)
-                })
 
-        # Create a DataFrame
-        df = pd.DataFrame(results)
+            # Create a DataFrame
+            df = pd.DataFrame(results)
 
-        # Display the DataFrame
-        st.subheader(" ⭑ Aquí es tu Spanish Analysed Table 💁‍♀️")
-        st.dataframe(df)
+            # Display the DataFrame
+            st.subheader(" ⭑ Aquí es tu Spanish Analysed Table 💁‍♀️")
+            st.dataframe(df)
 
-        # Allow download as CSV
-        csv = df.to_csv(index = False, encoding = 'utf-8-sig').encode('utf-8-sig')
-        st.download_button(
-            label = "🪄 Download (CSV)",
-            data = csv,
-            file_name = "spanish_text_analysis.csv",
-            mime = 'text/csv'
-        )
-
+            # Allow download as CSV
+            csv = df.to_csv(index=False, encoding='utf-8-sig').encode('utf-8-sig')
+            st.download_button(
+                label="🪄 Download (CSV)",
+                data=csv,
+                file_name="spanish_text_analysis.csv",
+                mime='text/csv'
+            )
