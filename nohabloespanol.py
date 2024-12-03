@@ -24,14 +24,16 @@ client = openai.OpenAI(api_key = user_api_key)
 # Prompt definition
 prompt = """You are a linguist specializing in Spanish. 
 Given a single Spanish word or a Spanish text, split it into words (if it's a text) or process it directly (if it's a single word). Provide:
-- Word in Spanish
+- Word in Spanish (if conjugated, return its infinitive form)
 - IPA transcription
 - English translation
 - Thai translation
 - Part of speech (e.g., noun, verb, adjective)
+If a verb is conjugated, return its infinitive form under "Word in Spanish" and include the original form in parentheses in the IPA or Part of Speech column, if relevant.
 Return the data as a JSON array of objects, even if there's only one word. For example:
 [
-    {"word": "días", "IPA": "ˈdi.as", "english_translation": "days", "thai_translation": "วัน", "part_of_speech": "noun"}
+    {"word": "hablar", "IPA": "aˈβlaɾ (habló)", "english_translation": "to speak", "thai_translation": "พูด", "part_of_speech": "verb"},
+    {"word": "niña", "IPA": "ˈni.ɲa", "english_translation": "girl", "thai_translation": "เด็กผู้หญิง", "part_of_speech": "noun"}
 ]
 """
 
