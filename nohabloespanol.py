@@ -62,8 +62,8 @@ def load_spanish_words():
 
 # Function to clean input text
 def clean_text(text):
-    # Remove special characters
-    cleaned_text = re.sub(r'[^a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]', '', text)
+    # Remove digits and special characters, but keep non-Latin characters like Thai, Japanese, Korean, Chinese, and Arabic
+    cleaned_text = re.sub(r'[^a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s\u0E00-\u0E7F\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF\u0600-\u06FF\uAC00-\uD7AF]', '', text)
     return cleaned_text
 
 # Function to check if input contains non-Latin characters
