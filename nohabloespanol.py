@@ -50,27 +50,13 @@ loading_meme = [
     "Hold on… 🧘‍♀️ debating whether ll sounds like ‘y,’ ‘j,’ or nothing today. 🤷‍♀️"
 ]
 
-# Load Spanish words
-def load_spanish_words():
-    words = set()
-    try:
-        with open("./data/spanish_words.txt", "r") as file:
-            for line in file:
-                word = line.strip() 
-                if word:
-                    words.add(word)
-    except FileNotFoundError:
-        print("File not found")
-    return words
-
 # Function to validate if text is Spanish
-def is_valid_spanish(text, spanish_words):
-    words = text.split()
-    invalid_words = [word for word in words if word.lower() not in spanish_words]
-    if invalid_words:
-        return False, invalid_words
+def is_valid_spanish(text):
+    pattern = re.compile(r'^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$')  # Regex for Spanish alphabet
+    if not pattern.match(text):
+        invalid_characters = [char for char in text if not pattern.match(char)]
+        return False, invalid_characters
     return True, []
-spanish_words = load_spanish_words()
 
 # Submit button
 if st.button("✦ Analizar Texto ✦"):
@@ -80,7 +66,7 @@ if st.button("✦ Analizar Texto ✦"):
         st.error("Please Enter some Spanish text to analyze.🧏‍♀️")
     else:
         # Validate the input
-        is_valid, invalid_words = is_valid_spanish(user_input, spanish_words)
+        is_valid, invalid_words = is_valid_spanish(user_input)
         if not is_valid:
                 st.error(f"⚠️ Uh-oh It seems like your text contains non-Spanish words or invalid characters: {', '.join(invalid_words)}.")
         else:
@@ -100,17 +86,19 @@ if st.button("✦ Analizar Texto ✦"):
                         temperature = 0.6
                     )
                     chat_response = response.choices[0].message.content
-                    esp_data = json.loads(chat_response)
 
-                    for item in esp_data:
-                        results.append({
-                            "Original Word": item.get("word", "N/A"),
-                            "Base Form": item.get("base_form", "N/A"),
-                            "IPA": item.get("IPA", "N/A"),
-                            "English Translation": item.get("english_translation", "N/A"),
-                            "Thai Translation": item.get("thai_translation", "N/A"),
-                            "Part of Speech": item.get("part_of_speech", "N/A")
-                        })
+                    try:
+                        esp_data = json.loads(chat_response)
+                        for item in esp_data:
+                            results.append({
+                                "Word": item.get("word", "N/A"),
+                                "IPA": item.get("IPA", "N/A"),
+                                "English Translation": item.get("english_translation", "N/A"),
+                                "Thai Translation": item.get("thai_translation", "N/A"),
+                                "Part of Speech": item.get("part_of_speech", "N/A")
+                            })
+                    except json.JSONDecodeError:
+                        st.error("The API response could not be processed as JSON. Please try again.")
 
                 except Exception as e:
                     st.error(f"An error occurred while processing your text: {str(e)}")
